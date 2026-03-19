@@ -2,8 +2,8 @@
 
 from typing import Any, Dict, List, Optional
 
-from autoresearch_swarm.config import SwarmConfig
-from autoresearch_swarm.coordinator import SwarmCoordinator
+from research_swarm.config import SwarmConfig
+from research_swarm.coordinator import SwarmCoordinator
 
 
 class CrossRepoCoordinator:

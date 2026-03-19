@@ -9,7 +9,7 @@
 ## Medium-term
 - Distributed execution across multiple machines via SSH
 - Web dashboard for monitoring agent progress
-- Integration with autoresearch-pareto for multi-objective optimization
+- Integration with research-pareto for multi-objective optimization
 - Adaptive role assignment based on exploration/exploitation tradeoff
 
 ## Long-term

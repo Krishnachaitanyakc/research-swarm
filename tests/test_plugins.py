@@ -3,8 +3,8 @@
 import os
 import tempfile
 import pytest
-from autoresearch_swarm.strategies import StrategyBase, load_plugins
-from autoresearch_swarm.agent import STRATEGY_MAP, register_plugins
+from research_swarm.strategies import StrategyBase, load_plugins
+from research_swarm.agent import STRATEGY_MAP, register_plugins
 
 
 def test_strategy_base_is_abstract():
@@ -13,7 +13,7 @@ def test_strategy_base_is_abstract():
 
 
 def test_builtin_strategies_are_subclasses():
-    from autoresearch_swarm.strategies import ExplorerStrategy, ExploiterStrategy, SpecialistStrategy
+    from research_swarm.strategies import ExplorerStrategy, ExploiterStrategy, SpecialistStrategy
     assert issubclass(ExplorerStrategy, StrategyBase)
     assert issubclass(ExploiterStrategy, StrategyBase)
     assert issubclass(SpecialistStrategy, StrategyBase)
@@ -22,7 +22,7 @@ def test_builtin_strategies_are_subclasses():
 def test_load_plugins_from_directory():
     with tempfile.TemporaryDirectory() as tmpdir:
         plugin_code = '''
-from autoresearch_swarm.strategies import StrategyBase
+from research_swarm.strategies import StrategyBase
 
 class GeneticStrategy(StrategyBase):
     def generate(self, params, best_known=None):
@@ -64,7 +64,7 @@ def test_register_plugins():
     original_keys = set(STRATEGY_MAP.keys())
     with tempfile.TemporaryDirectory() as tmpdir:
         plugin_code = '''
-from autoresearch_swarm.strategies import StrategyBase
+from research_swarm.strategies import StrategyBase
 
 class BayesianStrategy(StrategyBase):
     def generate(self, params, best_known=None):

@@ -1,9 +1,9 @@
 import os
 import tempfile
 import pytest
-from autoresearch_swarm.agent import ResearchAgent
-from autoresearch_swarm.coordinator import SwarmCoordinator
-from autoresearch_swarm.config import SwarmConfig
+from research_swarm.agent import ResearchAgent
+from research_swarm.coordinator import SwarmCoordinator
+from research_swarm.config import SwarmConfig
 
 
 @pytest.fixture

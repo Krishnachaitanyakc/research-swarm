@@ -2,7 +2,7 @@ import os
 import json
 import tempfile
 import pytest
-from autoresearch_swarm.git_ops import (
+from research_swarm.git_ops import (
     create_agent_branch,
     commit_experiment,
     get_best_from_branch,

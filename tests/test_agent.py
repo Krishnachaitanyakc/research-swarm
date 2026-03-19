@@ -1,5 +1,5 @@
 import pytest
-from autoresearch_swarm.agent import ResearchAgent
+from research_swarm.agent import ResearchAgent
 
 
 def test_agent_creation():

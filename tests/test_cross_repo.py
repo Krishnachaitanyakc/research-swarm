@@ -1,8 +1,8 @@
 """Tests for cross-repo coordination."""
 
 import pytest
-from autoresearch_swarm.config import SwarmConfig
-from autoresearch_swarm.cross_repo import CrossRepoCoordinator
+from research_swarm.config import SwarmConfig
+from research_swarm.cross_repo import CrossRepoCoordinator
 
 
 def test_cross_repo_creation():

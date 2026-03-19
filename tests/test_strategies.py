@@ -1,5 +1,5 @@
 import pytest
-from autoresearch_swarm.strategies import ExplorerStrategy, ExploiterStrategy, SpecialistStrategy
+from research_swarm.strategies import ExplorerStrategy, ExploiterStrategy, SpecialistStrategy
 
 
 def test_explorer_strategy_modifies_params():

@@ -1,11 +1,11 @@
-"""CLI for autoresearch-swarm."""
+"""CLI for research-swarm."""
 
 import json
 import click
 
-from autoresearch_swarm.config import SwarmConfig
-from autoresearch_swarm.coordinator import SwarmCoordinator
-from autoresearch_swarm.git_ops import create_agent_branch, list_agent_branches
+from research_swarm.config import SwarmConfig
+from research_swarm.coordinator import SwarmCoordinator
+from research_swarm.git_ops import create_agent_branch, list_agent_branches
 
 
 @click.group()
@@ -49,7 +49,7 @@ def run(repo, num_agents, time_budget, parallel, llm_guided, auto_scale, extra_r
     )
 
     if extra_repo:
-        from autoresearch_swarm.cross_repo import CrossRepoCoordinator
+        from research_swarm.cross_repo import CrossRepoCoordinator
         all_repos = [repo] + list(extra_repo)
         cross_coord = CrossRepoCoordinator(repo_paths=all_repos, config=config)
         repo_agents = cross_coord.assign_all_roles()
@@ -80,8 +80,8 @@ def run(repo, num_agents, time_budget, parallel, llm_guided, auto_scale, extra_r
     else:
         for agent in agents:
             if llm_guided:
-                from autoresearch_swarm.llm_strategy import suggest_strategy
-                from autoresearch_swarm.agent import STRATEGY_MAP
+                from research_swarm.llm_strategy import suggest_strategy
+                from research_swarm.agent import STRATEGY_MAP
                 strategy = suggest_strategy(agent.history, list(STRATEGY_MAP.keys()))
                 agent.switch_role(strategy)
             result = agent.run_experiment(agent.propose_experiment(base_params))
@@ -105,7 +105,7 @@ def status(repo):
 @click.option("--repo", required=True, help="Path to git repository")
 def results(repo):
     """Show aggregated results."""
-    from autoresearch_swarm.results import SharedResultStore
+    from research_swarm.results import SharedResultStore
     store = SharedResultStore(repo)
     all_results = store.aggregate_results()
     if not all_results:
@@ -122,7 +122,7 @@ def results(repo):
 @click.option("--repo", required=True, help="Path to git repository")
 def merge(repo):
     """Manually trigger merge of best results."""
-    from autoresearch_swarm.git_ops import merge_to_main
+    from research_swarm.git_ops import merge_to_main
     branches = list_agent_branches(repo)
     if not branches:
         click.echo("No agent branches found.")

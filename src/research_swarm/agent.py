@@ -3,7 +3,7 @@
 import random
 from typing import Any, Dict, List, Optional
 
-from autoresearch_swarm.strategies import (
+from research_swarm.strategies import (
     ExplorerStrategy,
     ExploiterStrategy,
     SpecialistStrategy,

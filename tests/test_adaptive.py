@@ -1,9 +1,9 @@
 """Tests for adaptive role assignment and convergence tracking."""
 
 import pytest
-from autoresearch_swarm.agent import ResearchAgent
-from autoresearch_swarm.config import SwarmConfig
-from autoresearch_swarm.coordinator import SwarmCoordinator
+from research_swarm.agent import ResearchAgent
+from research_swarm.config import SwarmConfig
+from research_swarm.coordinator import SwarmCoordinator
 
 
 def test_convergence_rate_empty():

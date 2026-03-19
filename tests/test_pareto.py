@@ -1,7 +1,7 @@
 """Tests for Pareto integration."""
 
 import pytest
-from autoresearch_swarm.pareto_integration import (
+from research_swarm.pareto_integration import (
     is_dominated,
     compute_pareto_frontier,
     MultiObjectiveTracker,

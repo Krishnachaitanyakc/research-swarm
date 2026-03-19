@@ -3,7 +3,7 @@
 from typing import Any, Dict, List, Optional, Tuple
 
 try:
-    from autoresearch_pareto import ParetoFrontier  # type: ignore
+    from research_pareto import ParetoFrontier  # type: ignore
     HAS_PARETO = True
 except ImportError:
     HAS_PARETO = False
@@ -26,7 +26,7 @@ def compute_pareto_frontier(
 ) -> List[Dict[str, Any]]:
     """Compute the Pareto frontier from a list of results.
 
-    If autoresearch-pareto is available, delegates to it. Otherwise uses
+    If research-pareto is available, delegates to it. Otherwise uses
     a simple built-in implementation.
     """
     if not results or not metric_keys:

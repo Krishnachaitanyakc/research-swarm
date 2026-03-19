@@ -1,4 +1,4 @@
-# autoresearch-swarm
+# research-swarm
 
 Multi-agent distributed research with git-based coordination. Multiple research agents work in parallel on different git branches, each following the autoresearch loop. A coordinator periodically collects and merges the best results.
 
@@ -22,27 +22,27 @@ pip install -e .
 
 ```bash
 # Initialize a swarm workspace
-autoresearch-swarm init --repo /path/to/repo
+research-swarm init --repo /path/to/repo
 
 # Run swarm with 4 agents
-autoresearch-swarm run --num-agents 4 --time-budget 3600
+research-swarm run --num-agents 4 --time-budget 3600
 
 # Check agent statuses
-autoresearch-swarm status
+research-swarm status
 
 # View aggregated results
-autoresearch-swarm results
+research-swarm results
 
 # Manually trigger merge of best results
-autoresearch-swarm merge
+research-swarm merge
 ```
 
 ### Python API
 
 ```python
-from autoresearch_swarm.agent import ResearchAgent
-from autoresearch_swarm.coordinator import SwarmCoordinator
-from autoresearch_swarm.config import SwarmConfig
+from research_swarm.agent import ResearchAgent
+from research_swarm.coordinator import SwarmCoordinator
+from research_swarm.config import SwarmConfig
 
 config = SwarmConfig(num_agents=4, time_budget=3600)
 coordinator = SwarmCoordinator(repo_path="/path/to/repo", config=config)

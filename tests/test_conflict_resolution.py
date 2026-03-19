@@ -4,7 +4,7 @@ import json
 import os
 import tempfile
 import pytest
-from autoresearch_swarm.git_ops import (
+from research_swarm.git_ops import (
     create_agent_branch,
     commit_experiment,
     merge_to_main,

@@ -2,7 +2,7 @@
 
 import pytest
 from unittest.mock import patch, MagicMock
-from autoresearch_swarm.ssh_executor import SSHExecutor, HAS_PARAMIKO
+from research_swarm.ssh_executor import SSHExecutor, HAS_PARAMIKO
 
 
 @pytest.mark.skipif(not HAS_PARAMIKO, reason="paramiko not installed")
@@ -36,7 +36,7 @@ def test_disconnect_when_not_connected():
 
 
 def test_import_error_without_paramiko():
-    with patch("autoresearch_swarm.ssh_executor.HAS_PARAMIKO", False):
-        from autoresearch_swarm.ssh_executor import SSHExecutor as SE
+    with patch("research_swarm.ssh_executor.HAS_PARAMIKO", False):
+        from research_swarm.ssh_executor import SSHExecutor as SE
         with pytest.raises(ImportError, match="paramiko"):
             SE(host="example.com", username="user")

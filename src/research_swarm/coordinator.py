@@ -5,8 +5,8 @@ import threading
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from typing import Any, Callable, Dict, List, Optional
 
-from autoresearch_swarm.agent import ResearchAgent
-from autoresearch_swarm.config import SwarmConfig
+from research_swarm.agent import ResearchAgent
+from research_swarm.config import SwarmConfig
 
 
 class SwarmCoordinator:

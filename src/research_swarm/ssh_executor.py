@@ -63,13 +63,13 @@ class SSHExecutor:
         repo_url: str,
         agent_id: str,
         role: str = "explorer",
-        remote_dir: str = "/tmp/autoresearch-swarm",
+        remote_dir: str = "/tmp/research-swarm",
     ) -> Dict[str, Any]:
         self.run_command(f"rm -rf {remote_dir} && git clone {repo_url} {remote_dir}")
         cmd = (
             f"cd {remote_dir} && "
             f"pip install -e . 2>/dev/null && "
-            f"autoresearch-swarm run --repo {remote_dir} --num-agents 1"
+            f"research-swarm run --repo {remote_dir} --num-agents 1"
         )
         return self.run_command(cmd)
 

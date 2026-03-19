@@ -3,7 +3,7 @@
 import os
 import tempfile
 import pytest
-from autoresearch_swarm.results import SharedResultStore
+from research_swarm.results import SharedResultStore
 
 
 @pytest.fixture

@@ -1,5 +1,5 @@
 import pytest
-from autoresearch_swarm.config import SwarmConfig
+from research_swarm.config import SwarmConfig
 
 
 def test_default_config():

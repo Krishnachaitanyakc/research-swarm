@@ -3,7 +3,7 @@ requires = ["setuptools>=64", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "autoresearch-swarm"
+name = "research-swarm"
 version = "0.1.0"
 description = "Multi-agent distributed research with git-based coordination"
 readme = "README.md"
@@ -32,7 +32,7 @@ all = [
 ]
 
 [project.scripts]
-autoresearch-swarm = "autoresearch_swarm.cli:cli"
+research-swarm = "research_swarm.cli:cli"
 
 [tool.setuptools.packages.find]
 where = ["src"]
