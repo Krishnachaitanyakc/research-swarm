@@ -1,10 +1,22 @@
 """Agent strategies for generating experiment modifications."""
 
+import importlib
+import os
 import random
-from typing import Any, Dict, Optional
+import sys
+from abc import ABC, abstractmethod
+from typing import Any, Dict, List, Optional, Type
 
 
-class ExplorerStrategy:
+class StrategyBase(ABC):
+    """Abstract base class for all strategies."""
+
+    @abstractmethod
+    def generate(self, params: Dict[str, Any], best_known: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+        ...
+
+
+class ExplorerStrategy(StrategyBase):
     """Random perturbations to parameters - broad search."""
 
     def generate(self, params: Dict[str, Any], best_known: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
@@ -21,7 +33,7 @@ class ExplorerStrategy:
         return new_params
 
 
-class ExploiterStrategy:
+class ExploiterStrategy(StrategyBase):
     """Refine the best known parameters with small perturbations."""
 
     def generate(self, params: Dict[str, Any], best_known: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
@@ -39,7 +51,7 @@ class ExploiterStrategy:
         return new_params
 
 
-class SpecialistStrategy:
+class SpecialistStrategy(StrategyBase):
     """Focus on modifying a single hyperparameter."""
 
     def __init__(self, focus_param: Optional[str] = None):
@@ -59,3 +71,42 @@ class SpecialistStrategy:
             factor = random.uniform(0.25, 4.0)
             new_params[target] = max(1, int(value * factor))
         return new_params
+
+
+def load_plugins(directory: str) -> Dict[str, Type[StrategyBase]]:
+    """Discover strategy plugins from a directory.
+
+    Each .py file in the directory is imported. Any class that is a subclass
+    of StrategyBase (but not StrategyBase itself) is registered using a
+    lowercased version of its class name (minus 'Strategy' suffix if present).
+    """
+    plugins: Dict[str, Type[StrategyBase]] = {}
+    if not os.path.isdir(directory):
+        return plugins
+    sys.path.insert(0, directory)
+    try:
+        for fname in sorted(os.listdir(directory)):
+            if not fname.endswith(".py") or fname.startswith("_"):
+                continue
+            module_name = fname[:-3]
+            spec = importlib.util.spec_from_file_location(
+                module_name, os.path.join(directory, fname)
+            )
+            if spec is None or spec.loader is None:
+                continue
+            module = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(module)
+            for attr_name in dir(module):
+                attr = getattr(module, attr_name)
+                if (
+                    isinstance(attr, type)
+                    and issubclass(attr, StrategyBase)
+                    and attr is not StrategyBase
+                ):
+                    name = attr_name.lower()
+                    if name.endswith("strategy"):
+                        name = name[: -len("strategy")]
+                    plugins[name] = attr
+    finally:
+        sys.path.pop(0)
+    return plugins

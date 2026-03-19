@@ -16,6 +16,20 @@ dependencies = [
 dev = [
     "pytest>=7.0",
 ]
+ssh = [
+    "paramiko>=3.0",
+]
+llm = [
+    "anthropic>=0.20",
+]
+autoscale = [
+    "psutil>=5.9",
+]
+all = [
+    "paramiko>=3.0",
+    "anthropic>=0.20",
+    "psutil>=5.9",
+]
 
 [project.scripts]
 autoresearch-swarm = "autoresearch_swarm.cli:cli"

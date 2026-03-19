@@ -1,7 +1,9 @@
 """Swarm coordinator that manages agents and merges results."""
 
 import math
-from typing import Any, Dict, List
+import threading
+from concurrent.futures import ThreadPoolExecutor, as_completed
+from typing import Any, Callable, Dict, List, Optional
 
 from autoresearch_swarm.agent import ResearchAgent
 from autoresearch_swarm.config import SwarmConfig
@@ -12,6 +14,7 @@ class SwarmCoordinator:
         self.repo_path = repo_path
         self.config = config
         self.agents: List[ResearchAgent] = []
+        self._git_lock = threading.Lock()
 
     def register_agent(self, agent: ResearchAgent) -> None:
         self.agents.append(agent)
@@ -63,3 +66,40 @@ class SwarmCoordinator:
             "metric": best_agent.best_metric,
             "params": best_agent.best_params,
         }
+
+    def adapt_roles(self, stagnation_threshold: float = 0.001, window: int = 5) -> List[str]:
+        """Check each agent's convergence rate and switch stagnant agents.
+
+        Returns list of agent IDs that were switched.
+        """
+        switched = []
+        for agent in self.agents:
+            rate = agent.convergence_rate(window=window)
+            if len(agent.history) >= window and abs(rate) < stagnation_threshold:
+                if agent.role == "explorer":
+                    agent.switch_role("exploiter")
+                else:
+                    agent.switch_role("explorer")
+                switched.append(agent.agent_id)
+        return switched
+
+    def run_parallel(
+        self,
+        experiment_fn: Callable[[ResearchAgent], Dict[str, Any]],
+        max_workers: Optional[int] = None,
+    ) -> List[Dict[str, Any]]:
+        """Run experiment_fn for each agent in parallel using threads."""
+        results = []
+        workers = max_workers or len(self.agents)
+        with ThreadPoolExecutor(max_workers=workers) as executor:
+            futures = {
+                executor.submit(experiment_fn, agent): agent
+                for agent in self.agents
+            }
+            for future in as_completed(futures):
+                results.append(future.result())
+        return results
+
+    @property
+    def git_lock(self) -> threading.Lock:
+        return self._git_lock
